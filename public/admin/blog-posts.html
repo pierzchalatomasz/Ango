@@ -1,0 +1,102 @@
+<!-- Page Heading -->
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+        Dashboard <small>Posts</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li class="active">
+        <i class="fa fa-dashboard"></i> Edit your posts
+      </li>
+    </ol>
+  </div>
+</div>
+<!-- /.row -->
+
+<div ng-hide="posts.editing">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="table-responsive">
+        <div class="text-right">
+          <a href class="btn btn-default" ng-click="posts.createNew()">New</a>
+        </div>
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Created on</th>
+              <th>Author</th>
+            </tr>
+          </thead>
+          <tbody ng-controller="BlogPosts as blogPosts">
+            <tr ng-repeat="post in blogPosts.posts">
+              <td><strong>{{post.title}}</strong></td>
+              <td>{{post.content | limitTo:250}}[...]</td>
+              <td>{{post.date | date}}</td>
+              <td>{{post.author}}</td>
+              <td><a href ng-click="posts.startEditing(post)"><i class="fa fa-pencil"></i></a></td>
+              <td><a href ng-click="posts.delete(post)"><i class="fa fa-trash"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-show="posts.editing">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="alert alert-info alert-dismissable" ng-show="posts.currentPost.savedOn">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <i class="fa fa-info-circle"></i>  <strong>Successfully</strong> saved on <strong>{{posts.currentPost.savedOn | date : 'medium'}}</strong>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          By <em>{{posts.currentPost.author}}</em> on <em>{{posts.currentPost.date | date : 'medium'}}</em>
+        </div>
+        <div class="col-lg-6 text-right">
+          <a href class="btn btn-default">Delete</a>
+          <a href class="btn btn-default" ng-click="posts.stopEditing()">Cancel</a>
+          <a href class="btn btn-default" ng-click="posts.save()">Save</a>
+        </div>
+      </div>
+      <div class="form-group clearfix">
+        <label>Title</label>
+        <input class="form-control" value="{{posts.currentPost.title}}" ng-model="posts.currentPost.title">
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea class="form-control" rows="10" ng-model="posts.currentPost.content">{{posts.currentPost.content}}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Categories -->
+    <div class="col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-archive fa-fw"></i> Categories</h3>
+        </div>
+        <div class="panel-body">
+          <select multiple class="form-control">
+            <option>Category 1</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- Tags -->
+    <div class="col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-tag fa-fw"></i> Tags</h3>
+        </div>
+        <div class="panel-body">
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

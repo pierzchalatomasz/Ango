@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <header>
+      <!-- Navigation -->
+      <nav>
+        <% for( i in menuItems ) { %>
+          <a href="page-<%= menuItems[i].title.toLowerCase() %>"><%= menuItems[i].title %></a>
+        <% } %>
+      </nav>
+    </header>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <!-- Blog Loop -->
+    <% for( i in posts ) { %>
+      <div class="post">
+        <h3><%= posts[i].title %></h3>
+        <p>By <em><%= posts[i].author %></em> on <em><%= posts[i].date %></em></p>
+        <p><%= posts[i].content %></p>
+      </div>
+    <% } %>
+  </body>
+</html>
