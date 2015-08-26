@@ -1,40 +1,39 @@
 var express = require('express');
 var router = express.Router();
-var Post = require('../modules/posts.js');
-var postOperations = require('../modules/post-operations');
+var PostController = require('../modules/post-controller');
 
 /* GET admin page. */
 router.get('/', function(req, res, next) {
-  postOperations.getPosts(function() {
+  PostController.getPostsFromDB(function() {
     res.render('./admin/index', { title: 'Express' });
   });
 });
 
 router.get('/get-posts', function(req, res, next) {
-  postOperations.getPosts(function() {
-    res.json(postOperations.posts());
+  PostController.getPostsFromDB(function() {
+    res.json(PostController.posts());
   });
 });
 
 router.post('/delete-post', function(req, res, next) {
-  postOperations.delete(req, function() {
+  PostController.delete(req, function() {
     res.json({saved: 'true', date: Date.now()});
-    postOperations.getPosts();
+    PostController.getPostsFromDB();
   });
 });
 
 router.post('/save-post', function(req, res, next) {
   if(typeof(req.body._id) != 'undefined') {
-    postOperations.update(req, function() {
+    PostController.update(req, function() {
       res.json({saved: 'true', date: Date.now()});
     });
   }
   else {
-    postOperations.createNew(req, function() {
+    PostController.createNew(req, function() {
       res.json({saved: 'true', date: Date.now()});
     });
   }
-  postOperations.getPosts();
+  PostController.getPostsFromDB();
 });
 
 module.exports = router;
