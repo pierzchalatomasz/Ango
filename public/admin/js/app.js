@@ -7,10 +7,12 @@
 
   app.controller('BlogPosts', ['$http', function($http) {
     var postCtrlInstance = this;
-
-    $http.get('/admin/get-posts').then(function(res) {
-      postCtrlInstance.posts = res.data;
-    });
+    this.update = function() {
+      $http.get('/admin/get-posts').then(function(res) {
+        postCtrlInstance.posts = res.data;
+      });
+    };
+    this.update();
   }]);
 
   app.controller('NavController', function() {

@@ -14,21 +14,6 @@ var app = express();
 
 // db
 mongoose.connect('mongodb://localhost/angodb');
-/*
-mongoose.connect('mongodb://localhost/angodb');
-var db = mongoose.connection;
-db.once('open', function() {
-  console.log('success');
-  var bloginfoSchema = new mongoose.Schema({
-    title: String,
-    subtitle: String
-  });
-  var bloginfo = mongoose.model('bloginfo', bloginfoSchema);
-  bloginfo.find(function(err, info) {
-    console.log(info);
-  });
-});*/
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
