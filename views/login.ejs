@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<title>Login</title>
+<body>
+  <% if(!isAuthenticated) { %>
+    <form action="" method="post">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit">
+    </form>
+  <% } else { %>
+    <p>Hello, <%= user.name %>!</p>
+    <a href="/logout">Log out</a>
+  <% } %>
+</body>
+</html>

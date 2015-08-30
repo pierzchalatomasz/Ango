@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var User = require('./modules/users');
+
 var routes = require('./routes/index');
 var admin = require('./routes/admin');
 var users = require('./routes/users');
@@ -14,6 +16,18 @@ var app = express();
 
 // db
 mongoose.connect('mongodb://localhost/angodb');
+
+// Configuring Passport
+var passport = require('passport');
+var passportLocal = require('passport-local');
+var expressSession = require('express-session');
+app.use(expressSession({
+  secret: 'mySecretKey',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +44,47 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/admin', admin);
 app.use('/users', users);
+
+// Passport
+passport.use(new passportLocal.Strategy(function(username, password, done) {
+  User.findOne({ username: username }, function(error, user) {
+    if(!error && user.password === password) {
+      done(null, {
+        id: user.username,
+        name: user.username
+      });
+    }
+    else {
+      done(null, null);
+    }
+  });
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, {id: id, name: id});
+});
+
+// app.get('/login', function(req, res) {
+//   res.render('login', {
+//     isAuthenticated: req.isAuthenticated(),
+//     user: req.user
+//   });
+// });
+//
+// app.post('/login', passport.authenticate('local'), function(req, res) {
+//   res.redirect('/login');
+// });
+//
+// app.get('/logout', function(req, res) {
+//   req.logout();
+//   res.redirect('/login');
+// });
+
+
 
 // Postch 404 and forward to error handler
 app.use(function(req, res, next) {
