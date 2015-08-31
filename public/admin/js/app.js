@@ -1,9 +1,12 @@
 (function() {
   var app = angular.module('BlogAdmin', []);
 
-  app.controller('BlogInfo', function() {
-    this.info = blogInfo;
-  });
+  app.controller('BlogInfo', ['$http', function($http) {
+    var blogInfo = this;
+    $http.get('/admin/get-data').then(function(res) {
+      blogInfo.info = res.data;
+    });
+  }]);
 
   app.controller('BlogPosts', ['$http', function($http) {
     var postCtrlInstance = this;
@@ -38,7 +41,7 @@
     return {
       restrict: 'E',
       templateUrl: '../admin/blog-posts.html',
-      controller: function($http) {
+      controller: function($http, multipartForm) {
         var instance = this;
         this.editing = false;
         this.startEditing = function(post) {
@@ -51,10 +54,14 @@
         };
         this.save = function() {
           console.log(this.currentPost);
-          $http.post('/admin/save-post', this.currentPost).then(function(response) {
+          multipartForm.post('/admin/save-post', this.currentPost).then(function(response) {
             if(response.data.saved)
-            instance.currentPost.savedOn = response.data.date;
+              instance.currentPost.savedOn = response.data.date;
           });
+          // $http.post('/admin/save-post', this.currentPost).then(function(response) {
+          //   if(response.data.saved)
+          //   instance.currentPost.savedOn = response.data.date;
+          // });
         };
         this.createNew = function() {
           instance.currentPost = {};
@@ -78,6 +85,43 @@
       templateUrl: '../admin/blog-settings.html'
     };
   });
+
+  app.directive('userSettings', function() {
+    return {
+      restrict: 'E',
+      templateUrl: '../admin/user-settings.html'
+    };
+  });
+
+  // File uploads
+  app.directive('fileModel', ['$parse', function($parse) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function() {
+          scope.$apply(function() {
+            modelSetter(scope, element[0].files[0]);
+          });
+        });
+      }
+    }
+  }]);
+
+  // Multipart Form
+  app.service('multipartForm', ['$http', function($http) {
+    this.post = function(uploadUrl, data) {
+      var fd = new FormData();
+      for(var key in data)
+        fd.append(key, data[key]);
+      $http.post(uploadUrl, fd, {
+        transformRequest: angular.identity,
+        headers: { 'Content-Type' : undefined }
+      });
+    };
+  }]);
 
   // Dummy Data
 

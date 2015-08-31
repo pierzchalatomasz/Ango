@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="BlogAdmin">
+<html lang="en" ng-app="BlogAdmin" ng-controller="BlogInfo as blog">
 
-<head ng-controller="BlogInfo as blog">
+<head>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -142,7 +142,7 @@
                           <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                       </li>
                       <li>
-                          <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                          <a href ng-click="nav.activate('user-settings')"><i class="fa fa-fw fa-gear"></i> Settings</a>
                       </li>
                       <li class="divider"></li>
                       <li>
@@ -183,6 +183,8 @@
             <blog-posts ng-show="nav.show('posts')"></blog-posts>
 
             <blog-settings ng-show="nav.show('settings')"></blog-settings>
+
+            <user-settings ng-show="nav.show('user-settings')"></user-settings>
 
           </div>
           <!-- /.container-fluid -->

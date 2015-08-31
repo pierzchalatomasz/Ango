@@ -68,24 +68,6 @@ passport.deserializeUser(function(id, done) {
   done(null, {id: id, name: id});
 });
 
-// app.get('/login', function(req, res) {
-//   res.render('login', {
-//     isAuthenticated: req.isAuthenticated(),
-//     user: req.user
-//   });
-// });
-//
-// app.post('/login', passport.authenticate('local'), function(req, res) {
-//   res.redirect('/login');
-// });
-//
-// app.get('/logout', function(req, res) {
-//   req.logout();
-//   res.redirect('/login');
-// });
-
-
-
 // Postch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -116,6 +98,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

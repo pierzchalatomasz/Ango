@@ -1,5 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname.substr(0, file.originalname.lastIndexOf('.')) + '-' + Date.now() + file.originalname.substr(file.originalname.lastIndexOf('.'), file.originalname.length))
+  }
+});
+var upload = multer({ storage: storage });
 var PostController = require('../modules/post-controller');
 var User = require('../modules/users.js');
 
@@ -47,6 +57,18 @@ router.post('/register', function(req, res) {
   res.redirect('/admin/login');
 });
 
+router.get('/get-data', function(req, res) {
+  PostController.getPostsFromDB(function() {
+    var data = {
+      title: 'Blog',
+      subtitle: 'Subtitle goes here',
+      username: req.user.name,
+      newPosts: PostController.posts().length
+    };
+    res.json(data);
+  });
+});
+
 router.get('/get-posts', function(req, res, next) {
   PostController.getPostsFromDB(function() {
     res.json(PostController.posts());
@@ -60,7 +82,8 @@ router.post('/delete-post', function(req, res, next) {
   });
 });
 
-router.post('/save-post', function(req, res, next) {
+router.post('/save-post', upload.single('thumbnail'), function(req, res, next) {
+  console.log('This is req: ' + req);
   if(typeof(req.body._id) != 'undefined') {
     PostController.update(req, function() {
       res.json({saved: 'true', date: Date.now()});

@@ -4,7 +4,9 @@ var Post = mongoose.model('Post', {
   title: String,
   content: String,
   author: String,
-  date: Number
+  date: Number,
+  thumbnail: String,
+  tags: Array
 });
 
 module.exports = Post;

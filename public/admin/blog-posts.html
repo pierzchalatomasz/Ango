@@ -87,15 +87,25 @@
             </select>
           </div>
         </div>
-      </div>
-      <!-- Tags -->
-      <div class="col-lg-6">
+        <!-- Tags -->
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title"><i class="fa fa-tag fa-fw"></i> Tags</h3>
           </div>
           <div class="panel-body">
-            <textarea class="form-control" rows="3"></textarea>
+            <textarea class="form-control" ng-model="posts.currentPost.tags" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- Thumbnail -->
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-image fa-fw"></i> Thumbnail</h3>
+          </div>
+          <div class="panel-body">
+            <input type="file" file-model="posts.currentPost.thumbnail" class="form-control" rows="3">
+            <img ng-src="../{{posts.currentPost.thumbnail}}" style="max-width: 100%;">
           </div>
         </div>
       </div>
