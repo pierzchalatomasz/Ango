@@ -6,6 +6,7 @@ var Post = mongoose.model('Post', {
   author: String,
   date: Number,
   thumbnail: String,
+  slug: String,
   tags: Array
 });
 
