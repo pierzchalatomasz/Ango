@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('BlogAdmin', []);
+  var app = angular.module('BlogAdmin', ['ui.tinymce']);
 
   app.controller('BlogInfo', ['$http', function($http) {
     var blogInfo = this;
