@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var PostController = require('../modules/post-controller');
 var MenuController = require('../modules/menu-controller');
+var Loop = require('../modules/loop.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,13 +15,11 @@ router.get('/', function(req, res, next) {
 
 // Display Single Post
 router.get('/post/:slug', function(req, res) {
-  var date = new Date(1439111111111);
   PostController.getPostBySlug(req, function(post) {
     MenuController.getMenuItemsFromDB(function() {
       res.render('single-post', { post: post, menuItems: MenuController.menuItems() });
     });
   });
-  //res.send(req.params.id + '; Date: ' + date.getFullYear() + ' / ' + date.getMonth() + ' / ' + date.getDate());
 });
 
 router.get('/post', function(req, res) {

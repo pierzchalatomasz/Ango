@@ -87,17 +87,17 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="blog-posts-container">
-                  <% for( i in posts ) { %>
+                  <% posts.forEach(function(post) { %>
                     <article class="blog-post">
                       <a href="#" class="post-thumbnail">
-                        <img src="<%= posts[i].thumbnail %>">
+                        <img src="<%= post.thumbnail() %>">
                         <div class="post-overlay-wrapper">
                           <div class="post-overlay">
                             <div class="post-overlay-inner">
-                              <h2 class="post-title"><%= posts[i].title %></h2>
+                              <h2 class="post-title"><%= post.title() %></h2>
                               <p class="post-info">
-                                <span><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;<%= posts[i].date %></span>/
-                                <span><i class="fa fa-user"></i>&nbsp;&nbsp;<%= posts[i].author %></span>/
+                                <span><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;<%= post.date() %></span>/
+                                <span><i class="fa fa-user"></i>&nbsp;&nbsp;<%= post.author() %></span>/
                                 <span><i class="fa fa-archive"></i>&nbsp;&nbsp;Cars</span>
                               </p>
                             </div>
@@ -105,13 +105,13 @@
                         </div>
                       </a>
                       <div class="post-content">
-                        <p><%- posts[i].content %></p>
-                        <a href="/post/<%= posts[i].title.toLowerCase().replace(' ', '-') %>" class="read-more easing">
+                        <p><%- post.content() %></p>
+                        <a href="/post/<%= post.title().toLowerCase().replace(/\s/g, '-') %>" class="read-more easing">
                           Read More
                         </a>
                       </div>
                     </article>
-                  <% } %>
+                  <% }) %>
                 </div>
               </div>
               <div class="col-md-4">

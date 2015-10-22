@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CarWash | Blog</title>
+    <title>CarWash | <%= post.title() %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="utf-8">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic' rel='stylesheet' type='text/css'>
@@ -87,16 +87,17 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="blog-posts-container">
+
                   <article class="blog-post">
                     <a href="#" class="post-thumbnail">
-                      <img src="<%= post.thumbnail %>">
+                      <img src="<%= post.thumbnail() %>">
                       <div class="post-overlay-wrapper">
                         <div class="post-overlay">
                           <div class="post-overlay-inner">
-                            <h2 class="post-title"><%= post.title %></h2>
+                            <h2 class="post-title"><%= post.title() %></h2>
                             <p class="post-info">
-                              <span><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;<%= post.date %></span>/
-                              <span><i class="fa fa-user"></i>&nbsp;&nbsp;<%= post.author %></span>/
+                              <span><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;<%= post.date() %></span>/
+                              <span><i class="fa fa-user"></i>&nbsp;&nbsp;<%= post.author() %></span>/
                               <span><i class="fa fa-archive"></i>&nbsp;&nbsp;Cars</span>
                             </p>
                           </div>
@@ -104,9 +105,15 @@
                       </div>
                     </a>
                     <div class="post-content">
-                      <p><%- post.content %></p>
+                      <p><%- post.content() %></p>
                     </div>
                   </article>
+                  <div style="margin: 30px 0;">
+                    <i class="fa fa-tags"></i> Tagged with: <%- post.tags() %>
+                  </div>
+                  <div style="margin-bottom: 30px; background: #fff; padding: 36px;">
+                    <h4>About the author - <%= post.author() %></h4>
+                  </div>
                 </div>
               </div>
               <div class="col-md-4">
@@ -292,8 +299,6 @@
     </div>
 
     <script src="/js/jquery-2.1.4.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script src="/js/maps.js" type="text/javascript"></script>
     <script src="/js/plugins.js" type="text/javascript"></script>
     <script src="/js/main.js" type="text/javascript"></script>
   </body>

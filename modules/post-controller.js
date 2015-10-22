@@ -4,6 +4,7 @@
 
 var Post = require('./posts');
 var fs = require('fs');
+var LoopController = require('./loop');
 var posts = [];
 
 exports.getPostsFromDB = function(callback) {
@@ -13,14 +14,28 @@ exports.getPostsFromDB = function(callback) {
     }
     console.log('I got this from DB: ' + data);
     posts = data;
+    // for(var i in data) {
+    //   var post = new LoopController(data[i]);
+    //   posts.push(post);
+    // }
     if(typeof(callback) != 'undefined') {
       callback();
     }
   });
-}
+};
 
-exports.posts = function() {
-  return posts;
+exports.posts = function(raw) {
+  if(typeof(raw) === 'undefined' || raw === true) {
+    var postsCopy = [];
+    posts.forEach(function(post) {
+      postsCopy.push(new LoopController(post));
+    });
+    console.log('Look here ' + postsCopy);
+    return postsCopy;
+  }
+  else {
+    return posts;
+  }
 }
 
 exports.delete = function(req, callback) {
@@ -43,7 +58,7 @@ exports.update = function(req, callback) {
     title: req.body.title,
     content: req.body.content,
     slug: req.body.title.toLowerCase().replace(/\s/g, '-'),
-    tags: req.body.tags.replace(/\s/g, '').split(',')
+    tags: req.body.tags.replace(/[,]\s/g, ',').split(',')
   };
   if(typeof(req.file) != 'undefined')
     postObject.thumbnail = req.file.path.substr(6, this.length);
@@ -75,7 +90,6 @@ exports.createNew = function(req, callback) {
 
 exports.getPostBySlug = function(req, callback) {
   Post.findOne({ slug: req.params.slug }, function(err, post) {
-    console.log(post);
-    callback(post);
+    callback(new LoopController(post));
   });
 }

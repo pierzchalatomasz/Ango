@@ -63,7 +63,7 @@ router.get('/get-data', function(req, res) {
       title: 'Blog',
       subtitle: 'Subtitle goes here',
       username: req.user.name,
-      newPosts: PostController.posts().length
+      newPosts: PostController.posts(false).length
     };
     res.json(data);
   });
@@ -71,7 +71,7 @@ router.get('/get-data', function(req, res) {
 
 router.get('/get-posts', function(req, res, next) {
   PostController.getPostsFromDB(function() {
-    res.json(PostController.posts());
+    res.json(PostController.posts(false));
   });
 });
 
