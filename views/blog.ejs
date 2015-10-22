@@ -106,7 +106,7 @@
                       </a>
                       <div class="post-content">
                         <p><%- post.content() %></p>
-                        <a href="/post/<%= post.title().toLowerCase().replace(/\s/g, '-') %>" class="read-more easing">
+                        <a href="/post/<%= post.slug() %>" class="read-more easing">
                           Read More
                         </a>
                       </div>

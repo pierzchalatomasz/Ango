@@ -57,7 +57,7 @@ exports.update = function(req, callback) {
   var postObject = {
     title: req.body.title,
     content: req.body.content,
-    slug: req.body.title.toLowerCase().replace(/\s/g, '-'),
+    slug: req.body.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s/g, '-'),
     tags: req.body.tags.replace(/[,]\s/g, ',').split(',')
   };
   if(typeof(req.file) != 'undefined')
@@ -79,7 +79,7 @@ exports.createNew = function(req, callback) {
   newPost.content = req.body.content;
   newPost.author = req.user.name;
   newPost.date = Date.now();
-  newPost.slug = req.body.title.toLowerCase().replace(/\s/g, '-');
+  newPost.slug = req.body.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s/g, '-');
   newPost.tags = req.body.tags.replace(/\s/g, '').split(',');
   if(typeof(req.file) != 'undefined')
     newPost.thumbnail = req.file.path.path.substr(6, this.length); // cut public
