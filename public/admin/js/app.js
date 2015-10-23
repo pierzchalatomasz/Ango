@@ -57,6 +57,7 @@
           multipartForm.post('/admin/save-post', this.currentPost).then(function(response) {
             if(response.data.saved)
               instance.currentPost.savedOn = response.data.date;
+            console.log(response);
           });
           // $http.post('/admin/save-post', this.currentPost).then(function(response) {
           //   if(response.data.saved)
@@ -74,6 +75,21 @@
             //instance.currentPost.savedOn = response.data.date;
           });
         };
+        this.getAvailableImages = function() {
+          $http.get('/admin/get-available-images').then(function(response) {
+            instance.availableImages = response.data;
+          });
+        };
+        this.uploadThumbnail = function() {
+          console.log(this.currentPost.thumbnailFile);
+          multipartForm.post('/admin/upload-thumbnail', this.currentPost.thumbnailFile).then(function(response) {
+            if(response.data.saved)
+              console.log('Uploaded!');
+              instance.getAvailableImages();
+          });
+        };
+        // Get available images on init
+        this.getAvailableImages();
       },
       controllerAs: 'posts'
     }
@@ -116,7 +132,7 @@
       var fd = new FormData();
       for(var key in data)
         fd.append(key, data[key]);
-      $http.post(uploadUrl, fd, {
+      return $http.post(uploadUrl, fd, {
         transformRequest: angular.identity,
         headers: { 'Content-Type' : undefined }
       });

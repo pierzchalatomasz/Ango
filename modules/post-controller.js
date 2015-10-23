@@ -58,13 +58,12 @@ exports.update = function(req, callback) {
     title: req.body.title,
     content: req.body.content,
     slug: req.body.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s/g, '-'),
-    tags: req.body.tags.replace(/[,]\s/g, ',').split(',')
+    tags: req.body.tags.replace(/[,]\s/g, ',').split(','),
+    thumbnail: req.body.thumbnail
   };
-  if(typeof(req.file) != 'undefined')
-    postObject.thumbnail = req.file.path.substr(6, this.length);
   Post.findOneAndUpdate({_id: req.body._id}, postObject, {upsert: true}, function(error, doc, result) {
     if(error) {
-      console.log('Error');
+      console.log('Error updating');
     }
     else {
       console.log('Updated');

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -95,6 +96,23 @@ router.post('/save-post', upload.single('thumbnail'), function(req, res, next) {
     });
   }
   PostController.getPostsFromDB();
+});
+
+router.get('/get-available-images', function(req, res) {
+  fs.readdir('./public/uploads', function(err, files) {
+    var output = new Array();
+    files.forEach(function(fileName) {
+      var file = {
+        fileName: '\\uploads\\' + fileName
+      };
+      output.push(file);
+    });
+    res.json(output);
+  });
+});
+
+router.post('/upload-thumbnail', upload.single('thumbnail'), function(req, res) {
+  res.json({saved: 'true', date: Date.now()});
 });
 
 module.exports = router;

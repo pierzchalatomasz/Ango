@@ -104,8 +104,19 @@
             <h3 class="panel-title"><i class="fa fa-image fa-fw"></i> Thumbnail</h3>
           </div>
           <div class="panel-body">
-            <input type="file" file-model="posts.currentPost.thumbnail" class="form-control" rows="3">
-            <img ng-src="../{{posts.currentPost.thumbnail}}" style="max-width: 100%;">
+            <h4>Available images</h4>
+            <ul style="list-style: none; padding: 0; max-height: 250px; overflow-y: scroll;">
+              <li ng-repeat="availableImage in posts.availableImages" style="width: 33.33%; display: inline-block;">
+                <label>
+                  <input type="radio" name="availableImages.fileName" value="{{availableImage.fileName}}" ng-model="posts.currentPost.thumbnail" ng-checked="availableImage.fileName === posts.currentPost.thumbnail">
+                  <img ng-src="..{{availableImage.fileName}}" style="max-width: 100%;" width="150" height="100">
+                </label>
+              </li>
+            </ul>
+            {{posts.currentPost.thumbnail}}
+            <h4>Upload</h4>
+            <input type="file" file-model="posts.currentPost.thumbnailFile.thumbnail" class="form-control" rows="3">
+            <a href class="btn btn-default" ng-click="posts.uploadThumbnail()">Upload</a>
           </div>
         </div>
       </div>
