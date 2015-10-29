@@ -9,14 +9,9 @@ var posts = [];
 
 exports.getPostsFromDB = function(callback) {
   Post.find(function (err, data) {
-    if(err) {
-      return console.error(err);
-    }
-    console.log('I got this from DB: ' + data);
+    if(err) throw err;
     posts = data;
-    if(typeof(callback) != 'undefined') {
-      callback();
-    }
+    if(typeof(callback) != 'undefined') callback();
   });
 };
 
@@ -39,13 +34,8 @@ exports.delete = function(req, callback) {
     title: req.body.title,
     content: req.body.content
   }, function(error, doc, result) {
-    if(error) {
-      console.log('Error');
-    }
-    else {
-      console.log('Removed!!!!');
-      callback();
-    }
+    if(error) throw error;
+    else callback();
   });
 }
 
@@ -58,13 +48,8 @@ exports.update = function(req, callback) {
     thumbnail: req.body.thumbnail
   };
   Post.findOneAndUpdate({_id: req.body._id}, postObject, {upsert: true}, function(error, doc, result) {
-    if(error) {
-      console.log('Error updating');
-    }
-    else {
-      console.log('Updated');
-      callback();
-    }
+    if(error) throw error;
+    else callback();
   });
 }
 
@@ -76,8 +61,6 @@ exports.createNew = function(req, callback) {
   newPost.date = Date.now();
   newPost.slug = req.body.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s/g, '-');
   newPost.tags = req.body.tags.replace(/\s/g, '').split(',');
-  if(typeof(req.file) != 'undefined')
-    newPost.thumbnail = req.file.path.path.substr(6, this.length); // cut public
   newPost.save(function (err) {
     callback();
   });
