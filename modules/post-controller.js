@@ -14,10 +14,6 @@ exports.getPostsFromDB = function(callback) {
     }
     console.log('I got this from DB: ' + data);
     posts = data;
-    // for(var i in data) {
-    //   var post = new LoopController(data[i]);
-    //   posts.push(post);
-    // }
     if(typeof(callback) != 'undefined') {
       callback();
     }

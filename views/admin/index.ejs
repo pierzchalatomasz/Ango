@@ -163,6 +163,9 @@
               <li ng-class="{'active': nav.show('categories')}">
                 <a href ng-click="nav.activate('categories')"><i class="fa fa-fw fa-archive"></i> Categories</a>
               </li>
+              <li ng-class="{'active': nav.show('imagesLibrary')}">
+                <a href ng-click="nav.activate('imagesLibrary')"><i class="fa fa-fw fa-image"></i> Images Library</a>
+              </li>
               <li ng-class="{'active': nav.show('help')}">
                 <a href ng-click="nav.activate('help')"><i class="fa fa-fw fa-life-buoy"></i> Help</a>
               </li>
@@ -181,6 +184,8 @@
             <blog-home ng-show="nav.show('home')"></blog-home>
 
             <blog-posts ng-show="nav.show('posts')"></blog-posts>
+
+            <images-library ng-show="nav.show('imagesLibrary')"></images-library>
 
             <blog-settings ng-show="nav.show('settings')"></blog-settings>
 

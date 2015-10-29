@@ -11,10 +11,13 @@ var storage = multer.diskStorage({
   }
 });
 var upload = multer({ storage: storage });
+var ImageResize = require('node-image-resize');
 var PostController = require('../modules/post-controller');
 var User = require('../modules/users.js');
 
 var passport = require('passport');
+
+var thumbnailResizer = require('../modules/thumbnail-resizer')
 
 /* GET admin page. */
 router.get('/', function(req, res, next) {
@@ -111,8 +114,20 @@ router.get('/get-available-images', function(req, res) {
   });
 });
 
-router.post('/upload-thumbnail', upload.single('thumbnail'), function(req, res) {
-  res.json({saved: 'true', date: Date.now()});
+router.post('/upload-thumbnail', function(req, res) {
+  upload.single('thumbnail')(req, res, function(err) {
+    if(err) throw err;
+    thumbnailResizer(req.file.path, function() {
+      res.json({saved: 'true', date: Date.now()});
+    });
+  });
+});
+
+router.post('/delete-image', function(req, res) {
+  fs.unlink('./public' + req.body.fileName, function(err) {
+    if(err) throw err;
+    else res.json({success: 'true', date: Date.now()});
+  })
 });
 
 module.exports = router;
