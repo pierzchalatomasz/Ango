@@ -8,7 +8,13 @@ var Loop = require('../modules/loop.js');
 router.get('/', function(req, res, next) {
   PostController.getPostsFromDB(function() {
     MenuController.getMenuItemsFromDB(function() {
-      res.render('blog', { title: 'Express', posts: PostController.posts(), menuItems: MenuController.menuItems() });
+      res.render('blog', {
+        title: 'Express',
+        subtitle: 'Our latest blog posts. Keep in touch with us!',
+        posts: PostController.posts(),
+        menuItems: MenuController.menuItems(),
+        urlPrefix: ''
+      });
     });
   });
 });
@@ -32,7 +38,20 @@ router.post('/search', function(req, res) {
 });
 
 router.get('/search/:query', function(req, res) {
-  res.send(req.params.query);
+  PostController.search(req, function(posts) {
+    var subtitle;
+
+    if(posts.length) subtitle = 'We are presenting search results for \'' + req.params.query + '\' ( ' + posts.length + ' )';
+    else subtitle = 'There are no posts matching your query \'' + req.params.query + '\'';
+
+    res.render('blog', {
+      title: 'Search',
+      subtitle: subtitle,
+      posts: posts,
+      menuItems: MenuController.menuItems(),
+      urlPrefix: '../../'
+    });
+  });
 });
 
 module.exports = router;

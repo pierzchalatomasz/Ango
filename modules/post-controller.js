@@ -71,3 +71,34 @@ exports.getPostBySlug = function(req, callback) {
     callback(new LoopController(post));
   });
 }
+
+exports.search = function(req, callback) {
+  var instance = this,
+      found = false,
+      searchTerm = req.params.query,
+      postsFound = [],
+      cb = function(post) {
+        postsFound.push(post);
+        found = true;
+      };
+
+  this.getPostsFromDB(function() {
+    instance.posts().forEach(function(post) {
+
+      // Title and Content
+      if(post.post.title.toLowerCase().indexOf(searchTerm) != -1 || post.post.content.toLowerCase().indexOf(searchTerm) != -1) {
+        cb(post);
+      }
+      // Tags
+      else {
+        post.post.tags.forEach(function(tag) {
+          if(tag.toLowerCase().indexOf(searchTerm) != -1) {
+            cb(post);
+          }
+        });
+      }
+    });
+
+    callback(postsFound);
+  });
+}
