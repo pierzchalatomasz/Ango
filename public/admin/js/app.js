@@ -83,9 +83,10 @@
         this.uploadThumbnail = function() {
           console.log(this.currentPost.thumbnailFile);
           multipartForm.post('/admin/upload-thumbnail', this.currentPost.thumbnailFile).then(function(response) {
-            if(response.data.saved)
+            if(response.data.saved) {
               console.log('Uploaded!');
               instance.getAvailableImages();
+            }
           });
         };
         // Get available images on init
@@ -99,7 +100,7 @@
     return {
       restrict: 'E',
       templateUrl: '../admin/blog-images-library.html',
-      controller: function($http) {
+      controller: function($http, multipartForm) {
         var instance = this;
         this.getAvailableImages = function() {
           $http.get('/admin/get-available-images').then(function(response) {
@@ -116,7 +117,12 @@
           });
         };
         this.uploadImage = function() {
-
+          multipartForm.post('/admin/upload-thumbnail', this.thumbnailFile).then(function(response) {
+            if(response.data.saved) {
+              console.log('Uploaded!');
+              instance.getAvailableImages();
+            }
+          });
         };
         // Get available images on init
         this.getAvailableImages();
@@ -175,19 +181,5 @@
     title: 'Blog',
     subtitle: 'My personal blog'
   };
-/*
-  var posts = [
-    {
-      title: 'First Post',
-      date: 1439215543081,
-      author: 'John',
-      content: 'First post content. Curabitur dictum, purus eu pulvinar maximus, leo nunc gravida ex, in elementum ante nisi at arcu. Donec auctor ipsum ex, vehicula pretium erat congue non. Proin eu venenatis erat, quis semper leo. Nunc ex ante, interdum nec magna quis, ornare consequat nunc. Phasellus rhoncus, ante id pharetra gravida, orci est eleifend augue, in laoreet nisi ligula id nisi. Quisque aliquam malesuada justo, ut tincidunt nibh.'
-    },
-    {
-      title: 'Second Post',
-      date: 1439111111111,
-      author: 'Sally',
-      content: 'Second post content.<h3>This is a blockquote</h3>. Ut quis enim pellentesque, consequat dui et, pulvinar nisl. In aliquam sit amet lectus vel suscipit. Aliquam venenatis mauris non odio faucibus faucibus. Vestibulum vulputate nulla sed sem rhoncus vestibulum. Curabitur justo neque, pulvinar nec mollis sit amet, pellentesque quis lorem.'
-    },
-  ];*/
+
 })()

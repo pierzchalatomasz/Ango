@@ -18,10 +18,14 @@ module.exports = function(router) {
     fs.readdir('./public/uploads', function(err, files) {
       var output = new Array();
       files.forEach(function(fileName) {
-        var file = {
-          fileName: '\\uploads\\' + fileName
-        };
-        output.push(file);
+        if(fs.statSync('./public/uploads/' + fileName).isFile()) {
+          var file = {
+            fileName: '\\uploads\\' + fileName,
+            thumbnail: '\\uploads\\thumbnails\\' + fileName.slice(0, fileName.lastIndexOf('.')) + '-resized' +
+              fileName.slice(fileName.lastIndexOf('.'), fileName.length)
+          };
+          output.push(file);
+        }
       });
       res.json(output);
     });
@@ -37,10 +41,17 @@ module.exports = function(router) {
   });
 
   router.post('/delete-image', function(req, res) {
-    fs.unlink('./public' + req.body.fileName, function(err) {
-      if(err) throw err;
-      else res.json({success: 'true', date: Date.now()});
-    })
+    var errors = [];
+    [req.body.fileName, req.body.thumbnail].forEach(function(fileName) {
+      fs.unlink('./public' + fileName, function(err) {
+        if(err) {
+          throw err;
+          errors.push(err);
+        }
+      });
+    });
+    if(errors) res.json({success: 'false', date: Date.now()});
+    else res.json({success: 'true', date: Date.now()});
   });
 
 }
