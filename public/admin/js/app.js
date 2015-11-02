@@ -3,6 +3,7 @@
 
   app.controller('BlogInfo', ['$http', function($http) {
     var blogInfo = this;
+
     $http.get('/admin/get-data').then(function(res) {
       blogInfo.info = res.data;
     });
@@ -10,24 +11,40 @@
 
   app.controller('BlogPosts', ['$http', function($http) {
     var postCtrlInstance = this;
+
     this.update = function() {
       $http.get('/admin/get-posts').then(function(res) {
         postCtrlInstance.posts = res.data;
       });
     };
+
     this.update();
   }]);
 
-  app.controller('NavController', function() {
-    this.active = 'home';
+  app.controller('NavController', function($scope, $location) {
+    var instance = this;
+
+    this.init = function() {
+      if($location.path()) this.activate($location.path().slice(1));
+      else this.activate('home');
+    };
+
+    $scope.$on('$locationChangeSuccess', function() {
+      instance.activate($location.path().slice(1));
+    });
+
     this.activate = function(item) {
       this.active = item;
+      $location.path(item);
     };
+
     this.show = function(item) {
       if(this.active === item)
         return true;
       return false;
     };
+
+    this.init();
   });
 
   app.directive('blogHome', function() {
@@ -181,5 +198,9 @@
     title: 'Blog',
     subtitle: 'My personal blog'
   };
+
+  app.config(function($locationProvider) {
+    // $locationProvider.html5Mode(true);
+  });
 
 })()
