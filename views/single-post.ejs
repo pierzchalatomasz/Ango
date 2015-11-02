@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Syncopate:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/css/libs.css" media="screen">
-    <link rel="stylesheet" href="/css/styles.css" media="screen">
-    <link rel="icon" href="/img/favicon.png" type="image/x-icon"/>
-    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="<%= urlPrefix %>css/libs.css" media="screen">
+    <link rel="stylesheet" href="<%= urlPrefix %>css/styles.css" media="screen">
+    <link rel="icon" href="<%= urlPrefix %>img/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<%= urlPrefix %>img/favicon.png" type="image/x-icon"/>
   </head>
 
   <body>
@@ -50,8 +50,8 @@
               <div class="header-wrapper-row row-">
                 <div class="col-md-4">
                   <div class="logo">
-                    <a href="index.html">
-                      <img src="/img/logo.png" alt="CarWash">
+                    <a href="<%= urlPrefix %>">
+                      <img src="<%= urlPrefix %>img/logo.png" alt="CarWash">
                     </a>
                   </div>
                 </div>
@@ -90,7 +90,7 @@
 
                   <article class="blog-post">
                     <a href="#" class="post-thumbnail">
-                      <img src="<%= post.thumbnail() %>">
+                      <img src="<%= urlPrefix %><%= post.thumbnail() %>">
                       <div class="post-overlay-wrapper">
                         <div class="post-overlay">
                           <div class="post-overlay-inner">
@@ -112,7 +112,7 @@
                     <i class="fa fa-tags"></i> Tagged with: <%- post.tags() %>
                   </div>
                   <div style="margin-bottom: 30px; background: #fff; padding: 36px;">
-                    <h4>About the author - <%= post.author() %></h4>
+                    <h4>About the author - <a href="/author/<%= post.author() %>"><%= post.author() %></h4>
                   </div>
                 </div>
               </div>
@@ -151,7 +151,7 @@
                     <ul class="recent-posts list-widget">
                       <li>
                         <a href="#" class="recent-post">
-                          <img class="easing" src="/img/scooter-593155.jpg">
+                          <img class="easing" src="<%= urlPrefix %>img/scooter-593155.jpg">
                           <div class="recent-post-overlay-wrapper">
                             <div class="recent-post-overlay">
                               <div class="recent-post-overlay-inner">
@@ -167,7 +167,7 @@
                       </li>
                       <li>
                         <a href="#" class="recent-post">
-                          <img class="easing" src="/img/vw-camper-336606_1280.jpg">
+                          <img class="easing" src="<%= urlPrefix %>img/vw-camper-336606_1280.jpg">
                           <div class="recent-post-overlay-wrapper">
                             <div class="recent-post-overlay">
                               <div class="recent-post-overlay-inner">
@@ -208,7 +208,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="footer-logo-social">
-                    <img class="footer-logo" src="/img/logo.png">
+                    <img class="footer-logo" src="<%= urlPrefix %>img/logo.png">
                     <div class="social-icons-wrapper">
                       <a href="#" class="social-icon img-circle">
                         <i class="fa fa-facebook fa-2x"></i>
@@ -298,8 +298,8 @@
       </div>
     </div>
 
-    <script src="/js/jquery-2.1.4.min.js"></script>
-    <script src="/js/plugins.js" type="text/javascript"></script>
-    <script src="/js/main.js" type="text/javascript"></script>
+    <script src="<%= urlPrefix %>js/jquery-2.1.4.min.js"></script>
+    <script src="<%= urlPrefix %>js/plugins.js" type="text/javascript"></script>
+    <script src="<%= urlPrefix %>js/main.js" type="text/javascript"></script>
   </body>
 </html>

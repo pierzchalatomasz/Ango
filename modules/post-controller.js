@@ -8,7 +8,7 @@ var LoopController = require('./loop');
 var posts = [];
 
 exports.getPostsFromDB = function(callback) {
-  Post.find(function (err, data) {
+  Post.find().sort({ date: -1 }).find(function (err, data) {
     if(err) throw err;
     posts = data;
     if(typeof(callback) != 'undefined') callback();
@@ -69,6 +69,18 @@ exports.createNew = function(req, callback) {
 exports.getPostBySlug = function(req, callback) {
   Post.findOne({ slug: req.params.slug }, function(err, post) {
     callback(new LoopController(post));
+  });
+}
+
+exports.getPostsBy = function(postParams, callback) {
+  var postsCopy = [];
+  Post.find(postParams).sort({ date: -1 }).find(function(err, posts) {
+    if(!err) {
+      posts.forEach(function(post) {
+        postsCopy.push(new LoopController(post));
+      });
+    }
+    callback(postsCopy);
   });
 }
 
