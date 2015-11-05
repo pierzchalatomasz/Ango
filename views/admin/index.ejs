@@ -3,7 +3,7 @@
 
 <head>
 
-  <!-- <base href="/admin"> -->
+  <!-- <base href="/admin/"> -->
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html" ng-controller="BlogInfo as blog">{{blog.info.title}} Admin</a>
+              <a class="navbar-brand" href="index.html" ng-controller="BlogInfo as blog" ng-cloak>{{blog.info.title}} Admin</a>
           </div>
           <!-- Top Menu Items -->
           <ul class="nav navbar-right top-nav">
@@ -220,7 +220,24 @@
   <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
   <script src="js/tinymce.js"></script>
 
-  <script src="js/app.js"></script>
+  <script src="js/angular-app/app/app.js"></script>
+
+  <!-- Controllers -->
+  <script src="js/angular-app/app/controllers/blog-info-controller.js"></script>
+  <script src="js/angular-app/app/controllers/nav-controller.js"></script>
+  <script src="js/angular-app/app/controllers/blog-posts-controller.js"></script>
+
+  <!-- Services -->
+  <script src="js/angular-app/app/services/blog-posts-container-service.js"></script>
+  <script src="js/angular-app/app/services/multipart-form-service.js"></script>
+
+  <!-- Directives -->
+  <script src="js/angular-app/app/directives/blog-posts-directive.js"></script>
+  <script src="js/angular-app/app/directives/blog-home-directive.js"></script>
+  <script src="js/angular-app/app/directives/blog-settings-directive.js"></script>
+  <script src="js/angular-app/app/directives/file-model-directive.js"></script>
+  <script src="js/angular-app/app/directives/images-library-directive.js"></script>
+  <script src="js/angular-app/app/directives/user-settings-directive.js"></script>
 
   <% } else { %>
     <div class="center-block img-rounded" style="max-width: 400px; background: #fff; padding: 30px 15px; margin: 15px auto;">
